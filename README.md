@@ -38,7 +38,7 @@ Uma API para o sistema de controle de voos de um aeroporto
 *Resposta*
 | código | descrição
 |--------|-----------
-|200| o voo foi cadastrado com sucesso
+|201| o voo foi cadastrado com sucesso
 |400| dados inválidos
 
 ### Listar Voos
@@ -47,7 +47,7 @@ Uma API para o sistema de controle de voos de um aeroporto
 
 *Exemplo de resposta*
 ```
-{
+[
   {
     numVoo: 1364,
     horario: '2023-12-27-10:30',
@@ -60,7 +60,7 @@ Uma API para o sistema de controle de voos de um aeroporto
     destino: 'Rio de Janeiro',
     portao: 6
   },
-}
+]
 ```
 
 *Resposta*
@@ -71,16 +71,6 @@ Uma API para o sistema de controle de voos de um aeroporto
 ### Apagar Voo
 
 `DELETE` /myflights/api/voo/{id}
-
-*Exemplo de resposta*
-```
-{
-  numVoo: 1364,
-  horario: '2023-12-27-10:30',
-  destino: 'New York',
-  portao: 12
-}
-```
 
 *Resposta*
 | código | descrição
@@ -159,7 +149,7 @@ Uma API para o sistema de controle de voos de um aeroporto
 *Resposta*
 | código | descrição
 |--------|-----------
-|200| o user foi cadastrado com sucesso
+|201| o user foi cadastrado com sucesso
 |400| dados inválidos
 
 ### Login User
@@ -183,5 +173,5 @@ Uma API para o sistema de controle de voos de um aeroporto
 *Resposta*
 | código | descrição
 |--------|-----------
-|200| o user foi cadastrado com sucesso
+|201| o user foi cadastrado com sucesso
 |400| dados inválidos
