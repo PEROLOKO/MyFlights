@@ -28,10 +28,10 @@ Uma API para o sistema de controle de voos de um aeroporto
 *Exemplo de requisição*
 ```
 {
-  numVoo: 1364,
-  horario: '2023-12-27-10:30',
-  destino: 'New York',
-  portao: 12
+  "numVoo": 1364,
+  "horario": '2023-12-27T10:30',
+  "destino": 'New York',
+  "portao": 12
 }
 ```
 
@@ -49,16 +49,16 @@ Uma API para o sistema de controle de voos de um aeroporto
 ```
 [
   {
-    numVoo: 1364,
-    horario: '2023-12-27-10:30',
-    destino: 'New York',
-    portao: 12
+    "numVoo": 1364,
+    "horario": '2023-12-27T10:30',
+    "destino": 'New York',
+    "portao": 12
   },
   {
-    numVoo: 2934,
-    horario: '2023-12-28-20:00',
-    destino: 'Rio de Janeiro',
-    portao: 6
+    "numVoo": 2934,
+    "horario": '2023-12-28T20:00',
+    "destino": 'Rio de Janeiro',
+    "portao": 6
   },
 ]
 ```
@@ -93,10 +93,10 @@ Uma API para o sistema de controle de voos de um aeroporto
 *Exemplo de requisição*
 ```
 {
-  numVoo: 1364,
-  horario: '2023-12-27-11:30',
-  destino: 'New York',
-  portao: 12
+  "numVoo": 1364,
+  "horario": '2023-12-27T10:30',
+  "destino": 'New York',
+  "portao": 12
 }
 ```
 
@@ -113,10 +113,10 @@ Uma API para o sistema de controle de voos de um aeroporto
 *Exemplo de resposta*
 ```
 {
-  numVoo: 1364,
-  horario: '2023-12-27-10:30',
-  destino: 'New York',
-  portao: 12
+  "numVoo": 1364,
+  "horario": '2023-12-27T10:30',
+  "destino": 'New York',
+  "portao": 12
 }
 ```
 
