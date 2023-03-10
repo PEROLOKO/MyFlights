@@ -9,7 +9,7 @@ Uma API para o sistema de controle de voos de um aeroporto
   - [Apagar](#apagar-voo)
   - [Atualizar](#atualizar-voo)
   - [Detalhes](#detalhar-voo)
-- Contas
+- User
   - [Cadastrar](#cadastrar-user)
   - [Login](#login-user)
 
