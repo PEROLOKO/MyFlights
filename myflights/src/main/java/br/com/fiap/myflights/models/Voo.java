@@ -1,27 +1,36 @@
 package br.com.fiap.myflights.models;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public class Voo {
+    private Long id;
     private int numVoo;
-    private LocalDate horario;
+    private LocalDateTime horario;
     private String destino;
     private int portao;
     
-    public Voo(int numVoo, LocalDate horario, String destino, int portao) {
+    public Voo(int numVoo, LocalDateTime horario, String destino, int portao) {
         this.numVoo = numVoo;
         this.horario = horario;
         this.destino = destino;
         this.portao = portao;
     }
 
-    public Voo(int numVoo, LocalDate horario, String destino) {
+    public Voo(int numVoo, LocalDateTime horario, String destino) {
         this.numVoo = numVoo;
         this.horario = horario;
         this.destino = destino;
     }
 
     public Voo() {
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public int getNumVoo() {
@@ -32,11 +41,11 @@ public class Voo {
         this.numVoo = numVoo;
     }
 
-    public LocalDate getHorario() {
+    public LocalDateTime getHorario() {
         return horario;
     }
 
-    public void setHorario(LocalDate horario) {
+    public void setHorario(LocalDateTime horario) {
         this.horario = horario;
     }
 
