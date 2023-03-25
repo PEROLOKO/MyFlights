@@ -3,69 +3,62 @@ package br.com.fiap.myflights.controllers;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.com.fiap.myflights.repository.VooRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import br.com.fiap.myflights.models.Voo;
 
 @RestController
+@RequestMapping("/api/voo")
 public class VooController {
 
     Logger log = LoggerFactory.getLogger(VooController.class);
 
-    private List<Voo> voos = new ArrayList<>();
+    @Autowired
+    VooRepository repository;
+    // private List<Voo> voos = new ArrayList<>();
 
-    @GetMapping("/api/voo")
+    @GetMapping
     public List<Voo> showAll() {
-        return voos;
+        return repository.findAll();
     }
-
-    @PostMapping("/api/voo")
+ 
+    @PostMapping
     public ResponseEntity<Voo> create(@RequestBody Voo voo) {
         log.info("cadastrar voo: " + voo);
-        voo.setId(voos.size() + 1l);
-        voos.add(voo);
+        repository.save(voo);
         return ResponseEntity.status(HttpStatus.CREATED).body(voo);
     }
 
-    @GetMapping("/api/voo/{id}")
+    @GetMapping("{id}")
     public ResponseEntity<Voo> show(@PathVariable Long id) {
         log.info("Buscar voo: " + id);
-        var vooEncontrado = voos.stream().filter(d -> d.getId().equals(id)).findFirst();
-        if (vooEncontrado.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        }
+        var vooEncontrado = repository.findById(id);
+        if (vooEncontrado.isEmpty()) return  ResponseEntity.notFound().build();
         return ResponseEntity.ok(vooEncontrado.get());
     }
 
-    @DeleteMapping("/api/voo/{id}")
+    @DeleteMapping("{id}")
     public ResponseEntity<Voo> delete(@PathVariable Long id) {
-        var vooEncontrado = voos.stream().filter(v -> v.getId().equals(id)).findFirst();
-        if (vooEncontrado.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        }
-        voos.remove(vooEncontrado.get());
+        log.info("apagando voo " + id);
+        var vooEncontrado = repository.findById(id);
+        if (vooEncontrado.isEmpty()) return ResponseEntity.notFound().build();
+        repository.delete(vooEncontrado.get());
         return ResponseEntity.noContent().build();
     }
 
-    @PutMapping("/api/voo/{id}")
+    @PutMapping("{id}")
     public ResponseEntity<Voo> update(@PathVariable Long id, @RequestBody Voo voo){
-        var vooEncontrado = voos.stream().filter(d -> d.getId().equals(id)).findFirst();
-        if(vooEncontrado.isEmpty()){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        }
-        voos.remove(vooEncontrado.get());
+        log.info("atualizando voo " + id);
+        var vooEncontrado = repository.findById(id);
+        if (vooEncontrado.isEmpty()) return ResponseEntity.notFound().build();
         voo.setId(id);
-        voos.add(voo);
+        repository.save(voo);
         return ResponseEntity.ok(voo);
     }
 

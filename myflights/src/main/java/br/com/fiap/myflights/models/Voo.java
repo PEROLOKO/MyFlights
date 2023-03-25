@@ -1,8 +1,16 @@
 package br.com.fiap.myflights.models;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+
 import java.time.LocalDateTime;
 
+@Entity(name = "T_MF_VOO")
 public class Voo {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private int numVoo;
     private LocalDateTime horario;
