@@ -4,6 +4,10 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 import java.time.LocalDateTime;
 
@@ -12,10 +16,13 @@ public class Voo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private int numVoo;
+    @NotNull
+    private Integer numVoo;
     private LocalDateTime horario;
+    @NotBlank(message = "Destino é obrigatório")
+    @Size(min = 5, max = 255)
     private String destino;
-    private int portao;
+    private Integer portao;
     
     public Voo(int numVoo, LocalDateTime horario, String destino, int portao) {
         this.numVoo = numVoo;

@@ -12,6 +12,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import br.com.fiap.myflights.models.Voo;
+import jakarta.validation.Valid;
+import org.springframework.web.server.ResponseStatusException;
 
 @RestController
 @RequestMapping("/api/voo")
@@ -29,7 +31,7 @@ public class VooController {
     }
  
     @PostMapping
-    public ResponseEntity<Voo> create(@RequestBody Voo voo) {
+    public ResponseEntity<Object> create(@RequestBody @Valid Voo voo) {
         log.info("cadastrar voo: " + voo);
         repository.save(voo);
         return ResponseEntity.status(HttpStatus.CREATED).body(voo);
@@ -38,25 +40,25 @@ public class VooController {
     @GetMapping("{id}")
     public ResponseEntity<Voo> show(@PathVariable Long id) {
         log.info("Buscar voo: " + id);
-        var vooEncontrado = repository.findById(id);
-        if (vooEncontrado.isEmpty()) return  ResponseEntity.notFound().build();
-        return ResponseEntity.ok(vooEncontrado.get());
+        var vooEncontrado = repository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "voo não encontrado"));
+        return ResponseEntity.ok(vooEncontrado);
     }
 
     @DeleteMapping("{id}")
     public ResponseEntity<Voo> delete(@PathVariable Long id) {
         log.info("apagando voo " + id);
-        var vooEncontrado = repository.findById(id);
-        if (vooEncontrado.isEmpty()) return ResponseEntity.notFound().build();
-        repository.delete(vooEncontrado.get());
+        var vooEncontrado = repository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "voo não encontrado"));
+        repository.delete(vooEncontrado);
         return ResponseEntity.noContent().build();
     }
 
     @PutMapping("{id}")
     public ResponseEntity<Voo> update(@PathVariable Long id, @RequestBody Voo voo){
         log.info("atualizando voo " + id);
-        var vooEncontrado = repository.findById(id);
-        if (vooEncontrado.isEmpty()) return ResponseEntity.notFound().build();
+        repository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "voo não encontrado"));
         voo.setId(id);
         repository.save(voo);
         return ResponseEntity.ok(voo);
