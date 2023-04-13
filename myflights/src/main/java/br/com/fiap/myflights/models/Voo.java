@@ -1,9 +1,6 @@
 package br.com.fiap.myflights.models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -11,6 +8,7 @@ import jakarta.validation.constraints.Size;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @Setter
@@ -30,15 +28,14 @@ public class Voo {
     private String destino;
     private Integer portao;
 
-    public Voo(int numVoo, LocalDateTime horario, String destino) {
+    @OneToMany
+    private List<UserVoo> userVoos;
+
+    public Voo(Long id, int numVoo, LocalDateTime horario, String destino) {
+        this.id = id;
         this.numVoo = numVoo;
         this.horario = horario;
         this.destino = destino;
-    }
-
-    @Override
-    public String toString() {
-        return "Voo [numVoo=" + numVoo + ", horario=" + horario + ", destino=" + destino + ", portao=" + portao + "]";
     }
 
 }

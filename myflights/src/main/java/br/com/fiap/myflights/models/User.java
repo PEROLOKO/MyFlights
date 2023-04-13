@@ -1,12 +1,11 @@
 package br.com.fiap.myflights.models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.*;
+
+import java.util.List;
 
 @Getter
 @Setter
@@ -30,5 +29,13 @@ public class User {
     @Size(min = 5, max = 255)
     private String senha;
 
+    @OneToMany
+    private List<UserVoo> userVoos;
 
+    public User(Long id, String name, String email, String senha) {
+        this.id = id;
+        this.name = name;
+        this.email = email;
+        this.senha = senha;
+    }
 }
