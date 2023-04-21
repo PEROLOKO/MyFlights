@@ -1,5 +1,6 @@
 package br.com.fiap.myflights.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
@@ -15,6 +16,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
+@Builder
 @Entity(name = "T_MF_VOO")
 public class Voo {
     @Id
@@ -24,12 +26,16 @@ public class Voo {
     private Integer numVoo;
     private LocalDateTime horario;
     @NotBlank(message = "Destino é obrigatório")
-    @Size(min = 5, max = 255)
     private String destino;
     private Integer portao;
 
-    @OneToMany
-    private List<UserVoo> userVoos;
+    @ManyToMany
+    @JoinTable(
+            name="T_MF_VOO_USER",
+            joinColumns = @JoinColumn(name = "voo_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id"))
+    @JsonIgnore
+    private List<User> users;
 
     public Voo(Long id, int numVoo, LocalDateTime horario, String destino) {
         this.id = id;

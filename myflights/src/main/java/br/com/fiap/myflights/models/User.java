@@ -1,5 +1,6 @@
 package br.com.fiap.myflights.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -12,6 +13,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
+@Builder
 @Entity(name = "T_MF_USER")
 public class User {
 
@@ -29,8 +31,9 @@ public class User {
     @Size(min = 5, max = 255)
     private String senha;
 
-    @OneToMany
-    private List<UserVoo> userVoos;
+    @ManyToMany(mappedBy = "users")
+    @JsonIgnore
+    private List<Voo> voos;
 
     public User(Long id, String name, String email, String senha) {
         this.id = id;
