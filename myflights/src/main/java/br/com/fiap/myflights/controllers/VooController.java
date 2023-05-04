@@ -11,6 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.data.web.PagedResourcesAssembler;
+import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.PagedModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -29,25 +32,33 @@ public class VooController {
     VooRepository repository;
     // private List<Voo> voos = new ArrayList<>();
 
+    @Autowired
+    PagedResourcesAssembler<Object> assembler;
+
     @GetMapping
-    public Page<Voo> index(@RequestParam(required = false) String busca, @PageableDefault(size = 5) Pageable pageable) {
-        if (busca == null) return repository.findAll(pageable);
-        return repository.findByDestinoContaining(busca, pageable);
+    public PagedModel<EntityModel<Object>> index(@RequestParam(required = false) String busca, @PageableDefault(size = 5) Pageable pageable) {
+        Page<Voo> voos = (busca == null) ?
+                repository.findAll(pageable):
+                repository.findByDestinoContaining(busca, pageable);
+
+        return assembler.toModel(voos.map(Voo::toEntityModel));
     }
  
     @PostMapping
     public ResponseEntity<Object> create(@RequestBody @Valid Voo voo) {
         log.info("cadastrar voo: " + voo);
         repository.save(voo);
-        return ResponseEntity.status(HttpStatus.CREATED).body(voo);
+        return ResponseEntity
+                .created(voo.toEntityModel().getRequiredLink("self").toUri())
+                .body(voo.toEntityModel());
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<Voo> show(@PathVariable Long id) {
+    public EntityModel<Voo> show(@PathVariable Long id) {
         log.info("Buscar voo: " + id);
-        var vooEncontrado = repository.findById(id)
+        var voo = repository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "voo não encontrado"));
-        return ResponseEntity.ok(vooEncontrado);
+        return voo.toEntityModel();
     }
 
     @DeleteMapping("{id}")
@@ -60,13 +71,13 @@ public class VooController {
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<Voo> update(@PathVariable Long id, @RequestBody Voo voo){
+    public EntityModel<Voo> update(@PathVariable Long id, @RequestBody Voo voo){
         log.info("atualizando voo " + id);
         repository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "voo não encontrado"));
         voo.setId(id);
         repository.save(voo);
-        return ResponseEntity.ok(voo);
+        return voo.toEntityModel();
     }
 
 }
