@@ -23,7 +23,7 @@ import jakarta.validation.Valid;
 import org.springframework.web.server.ResponseStatusException;
 
 @RestController
-@RequestMapping("/api/voo")
+@RequestMapping("/myflights/api/voo")
 public class VooController {
 
     Logger log = LoggerFactory.getLogger(VooController.class);
