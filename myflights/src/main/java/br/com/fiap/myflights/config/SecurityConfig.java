@@ -27,6 +27,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests()
                     .requestMatchers(HttpMethod.POST,"/myflights/api/user/cadastrar").permitAll()
                     .requestMatchers(HttpMethod.POST,"/myflights/api/user/login").permitAll()
+                    .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
                     .anyRequest().authenticated()
                 .and()
                 .csrf().disable()

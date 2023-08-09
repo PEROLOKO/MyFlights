@@ -4,9 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.com.fiap.myflights.repository.VooRepository;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -36,7 +38,11 @@ public class VooController {
     PagedResourcesAssembler<Object> assembler;
 
     @GetMapping
-    public PagedModel<EntityModel<Object>> index(@RequestParam(required = false) String busca, @PageableDefault(size = 5) Pageable pageable) {
+    @Operation(
+            summary = "Listar voos",
+            description = "Retorna todos os voos cadastrados."
+    )
+    public PagedModel<EntityModel<Object>> index(@RequestParam(required = false) String busca, @ParameterObject @PageableDefault(size = 5) Pageable pageable) {
         Page<Voo> voos = (busca == null) ?
                 repository.findAll(pageable):
                 repository.findByDestinoContaining(busca, pageable);
@@ -45,6 +51,10 @@ public class VooController {
     }
  
     @PostMapping
+    @Operation(
+            summary = "Cadastrar voo",
+            description = "Cadastra um novo voo."
+    )
     public ResponseEntity<Object> create(@RequestBody @Valid Voo voo) {
         log.info("cadastrar voo: " + voo);
         repository.save(voo);
@@ -54,6 +64,10 @@ public class VooController {
     }
 
     @GetMapping("{id}")
+    @Operation(
+            summary = "Detalhar voo",
+            description = "Detalha um voo específico por ID."
+    )
     public EntityModel<Voo> show(@PathVariable Long id) {
         log.info("Buscar voo: " + id);
         var voo = repository.findById(id)
@@ -62,6 +76,10 @@ public class VooController {
     }
 
     @DeleteMapping("{id}")
+    @Operation(
+            summary = "Deletar voo",
+            description = "Deleta um voo específico por ID."
+    )
     public ResponseEntity<Voo> delete(@PathVariable Long id) {
         log.info("apagando voo " + id);
         var vooEncontrado = repository.findById(id)
@@ -71,6 +89,10 @@ public class VooController {
     }
 
     @PutMapping("{id}")
+    @Operation(
+            summary = "Editar voo",
+            description = "Edita um voo específico por ID."
+    )
     public EntityModel<Voo> update(@PathVariable Long id, @RequestBody Voo voo){
         log.info("atualizando voo " + id);
         repository.findById(id)
