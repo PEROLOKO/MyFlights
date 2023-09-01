@@ -54,8 +54,8 @@ public class Voo {
         return EntityModel.of(
                 this,
                 linkTo(methodOn(VooController.class).show(id)).withSelfRel(),
-                linkTo(methodOn(VooController.class).delete(id)).withRel("delete"),
-                linkTo(methodOn(VooController.class).index(null, Pageable.unpaged())).withRel("all")
+                linkTo(methodOn(VooController.class).delete(id)).withRel("delete")
+                //linkTo(methodOn(VooController.class).index(null, Pageable.unpaged())).withRel("all")
         );
     }
 

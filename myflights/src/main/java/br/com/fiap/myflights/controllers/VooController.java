@@ -42,6 +42,8 @@ public class VooController {
             summary = "Listar voos",
             description = "Retorna todos os voos cadastrados."
     )
+    //public List<Voo> index() { return repository.findAll(); }
+
     public PagedModel<EntityModel<Object>> index(@RequestParam(required = false) String busca, @ParameterObject @PageableDefault(size = 5) Pageable pageable) {
         Page<Voo> voos = (busca == null) ?
                 repository.findAll(pageable):
@@ -49,6 +51,7 @@ public class VooController {
 
         return assembler.toModel(voos.map(Voo::toEntityModel));
     }
+
  
     @PostMapping
     @Operation(
